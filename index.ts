@@ -33,13 +33,12 @@ app.post("/api/features/feature", async (req:any, res:any) => {
 app.put("/api/features/feature/:fid", async (req:any, res:any) => {
 
     try {
-        console.log(req.body)
-        const features = new Feature(req.body) 
-        const state = await features.save();
-        console.log(features);
+        const { fid } = req.params;
+        console.log('body', req.body)
+        const x = Feature.findByIdAndUpdate(fid, req.body, {runValidators: false});
+        console.log(x)
         res.status(200).send({
-            message: 'Feature updated',
-            status: 'Saved Successfully'
+            message: `Feature updated with id: ${fid}`,
         })
     } catch (error) {
         res.status(400).send('invalid payload')
